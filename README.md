@@ -1,2 +1,2 @@
 # linkageAnalysis
-A linkage analysis project with kinematics and animation
+A linkage analysis project with kinematics and animation.
