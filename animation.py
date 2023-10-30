@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 def getParameters():
-    rv2, rv1, rv4, rv5, rv6, rv7, wv2, av2 = [float(char) for char in input("Enter the parameters, in the sequence of r2, r1, r4, r5, r6, r7, w2, a2(separate by space): ").split()]
-    return rv2, rv1, rv4, rv5, rv6, rv7, wv2, av2
+    params = input("Enter the parameters, in the sequence of r2, r1, r4, r5, r6, r7, w2, a2(separate by space): ").split()
+    keys = ["rv2", "rv1", "rv4", "rv5", "rv6", "rv7", "wv2", "av2"]
+    return dict(zip(keys, map(float, params)))
 
 def getFrameDuration():
     dt = float(input("Enter desired duration for each frame(in sec): "))
@@ -163,12 +164,16 @@ def calculateAllData(rv1,rv2,rv4,rv5,rv6,rv7,wv2,av2,dt):
     
     return xr3, yr3, xr5, yr5, xr6, yr6
 
-def linkageAnimation(rv1,rv2,rv4,rv5,rv6,rv7,wv2,av2,dt,iterate):
+def linkageAnimation(params,dt,iterate):
+
+    rv1 = params['rv1']
+    rv7 = params['rv7']
+
     xr2, yr2 = 0, 0
     xr4, yr4 = 0, -rv1
     xrf, yrf = -rv7, 0
 
-    xr3, yr3, xr5, yr5, xr6, yr6 = list(map(lambda arr: arr[arr != 0], calculateAllData(rv1,rv2,rv4,rv5,rv6,rv7,wv2,av2,dt)))
+    xr3, yr3, xr5, yr5, xr6, yr6 = list(map(lambda arr: arr[arr != 0], calculateAllData(**params, dt = dt)))
 
     def findLimitXY(rv1, xr5=xr5, yr5=yr5, xr6=xr6, yr6=yr6):
 
@@ -218,7 +223,6 @@ def linkageAnimation(rv1,rv2,rv4,rv5,rv6,rv7,wv2,av2,dt,iterate):
     ## 1 2 4 3.5 3.5 4.1 3.1415926 0
 
 if __name__ == "__main__":
-    rv2, rv1, rv4, rv5, rv6, rv7, wv2, av2 = getParameters()
-    dt = getFrameDuration()
-    iterate = getIterate()
-    linkageAnimation(rv1,rv2,rv4,rv5,rv6,rv7,wv2,av2,dt,iterate)
+
+    params = getParameters()
+    linkageAnimation(params, dt = getFrameDuration(),iterate = getIterate())
