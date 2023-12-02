@@ -25,9 +25,13 @@ This file contains some useful functions for the project. Both other two Python 
 ### letter
 
 link: r
+
 angle: t
+
 velocity: v
+
 angular velocity: w
+
 acceleration: a
 
 ### number
@@ -35,4 +39,4 @@ acceleration: a
 For numbering the links. See .pdf for reference.
 
 ### normal or symbolic
-Normal variables with values are named with a "v" in the middle, e.g. rv1, rv2, which is different from symbolic ones.
+Normal variables with numerical values are named with a "v" in the middle, e.g. rv1, rv2, which is different from symbolic ones.
