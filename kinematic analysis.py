@@ -100,10 +100,13 @@ mint3 = max(t3min123, t3min56) if t3min56.is_real else t3min123
 #Note that if and only if maxt3 == t3max123 and mint3 ==t3min123, r3 can revolute 360 degree!
 
 #take 35 values of input angles with an equal interval of 10 degree for the for loop
-for i in range(1,37):
-    tv2 = 10*i/180*sym.pi
-    print("tv2 =", 10*i)
-#     t2plot[i-1] = np.float64(10*i)
+def inputIncrementAngles(num = 37) -> np.ndarray:
+    return np.linspace(0, 360, num)[1:]/180*sym.pi
+
+
+for step, currentInputAngle in enumerate(inputIncrementAngles(num = 37)):
+    tv2 = currentInputAngle
+    print("tv2 =", 360/(37-1)*(step + 1))
 
     eqt = sym.Eq(0.5 * av2 * t**2 + wv2 * t - sym.N(10/180*sym.pi),0)
     resultt = sym.solve(eqt,t)
@@ -130,14 +133,14 @@ for i in range(1,37):
     
     #if the resulted values of r3 or t3 are not in the limits, it cannot occur.
     if round(tv3, 4) > round(maxt3,4) or round(tv3,4) < round(mint3,4): #the round() is used to avoid the wrong result from the calculation above
-        print(f"This input angle {10*i} degree cannot occur!")
-        table.append([10*i,"N","N","N","N","N","N","N","N","N"])
+        print(f"This input angle {10*(step + 1)} degree cannot occur!")
+        table.append([10*(step + 1),"N","N","N","N","N","N","N","N","N"])
         continue
     else:
-        t2plot6[i-1] = np.float64(10*i)
-        t3plot[i-1] = np.float64(tv3/sym.N(sym.pi)*180)
-        r3plot[i-1] = np.float64(rv3*100)
-        table.append([10*i])
+        t2plot6[step] = np.float64(10*(step+1))
+        t3plot[step] = np.float64(tv3/sym.N(sym.pi)*180)
+        r3plot[step] = np.float64(rv3*100)
+        table.append([10*(step+1)])
 #         print("rv3", rv3,"tv3:", tv3)
     # print("t")
     #Loop 2, basicallly the same as above
@@ -163,8 +166,8 @@ for i in range(1,37):
             tv5 -= sym.N(2 * sym.pi)
         while tv6 > 2 * sym.pi:
             tv6 -= sym.N(2 * sym.pi)
-    t5plot[i-1] = np.float64(tv5/sym.N(sym.pi)*180)
-    t6plot[i-1] = np.float64(tv6/sym.N(sym.pi)*180)
+    t5plot[step] = np.float64(tv5/sym.N(sym.pi)*180)
+    t6plot[step] = np.float64(tv6/sym.N(sym.pi)*180)
     # print("tv5 = ", tv5, "tv6 = ", tv6)
 
 #     print("tv5:",tv5,"tv6:", tv6)
@@ -173,12 +176,12 @@ for i in range(1,37):
     dy = round(sym.N(rv4*sym.sin(tv3)-rv1), 4)
     ex = round(sym.N(rv4*sym.cos(tv3)+rv5*sym.cos(tv5)), 4)
     ey = round(sym.N(rv4*sym.sin(tv3)+rv5*sym.sin(tv5)-rv1), 4)
-    dxplot[i-1] = np.float64(dx)
-    dyplot[i-1] = np.float64(dy)
-    explot[i-1] = np.float64(ex)
-    eyplot[i-1] = np.float64(ey)
+    dxplot[step] = np.float64(dx)
+    dyplot[step] = np.float64(dy)
+    explot[step] = np.float64(ex)
+    eyplot[step] = np.float64(ey)
 #     print("ey = ", ey)
-    table[i-1].extend((dx, dy, ex, ey))
+    table[step].extend((dx, dy, ex, ey))
     # print("five")
 #velocity
     eq1v = sym.Eq(sym.N(-rv2 * sym.sin(tv2) * wv2) - v3 * sym.cos(tv3) + rv3 * sym.sin(tv3) * w3, 0)
@@ -192,17 +195,17 @@ for i in range(1,37):
     wv5 = resultv2[w5]
     wv6 = resultv2[w6]
 #     print(f"Ve:({-rv4 * sym.sin(tv3) * wv3 - rv5 * sym.sin(tv5) * wv5},{rv4 * sym.cos(tv3) * wv3 + rv5 * sym.cos(tv5) * wv5})")
-    table[i-1].extend((round(-rv4 * sym.sin(tv3) * wv3 - rv5 * sym.sin(tv5) * wv5,4), round(rv4 * sym.cos(tv3) * wv3 + rv5 * sym.cos(tv5) * wv5,4)))
+    table[step].extend((round(-rv4 * sym.sin(tv3) * wv3 - rv5 * sym.sin(tv5) * wv5,4), round(rv4 * sym.cos(tv3) * wv3 + rv5 * sym.cos(tv5) * wv5,4)))
     if -rv4 * sym.sin(tv3) * wv3 - rv5 * sym.sin(tv5) * wv5 == 0:
         evxadd = 0.00001
-        evxplot[i-1] = np.float64(evxadd)
+        evxplot[step] = np.float64(evxadd)
     else:
-        evxplot[i-1] = np.float64(round(-rv4 * sym.sin(tv3) * wv3 - rv5 * sym.sin(tv5) * wv5,4))
+        evxplot[step] = np.float64(round(-rv4 * sym.sin(tv3) * wv3 - rv5 * sym.sin(tv5) * wv5,4))
     if rv4 * sym.cos(tv3) * wv3 + rv5 * sym.cos(tv5) * wv5 == 0:
         evyadd = 0.00001
-        evyplot[i-1] = np.float64(evyadd)
+        evyplot[step] = np.float64(evyadd)
     else:
-        evyplot[i-1] = np.float64(round(rv4 * sym.cos(tv3) * wv3 + rv5 * sym.cos(tv5) * wv5,4))
+        evyplot[step] = np.float64(round(rv4 * sym.cos(tv3) * wv3 + rv5 * sym.cos(tv5) * wv5,4))
     # print("six")
 #acceleration
     eq1a = sym.Eq(-rv2 * sym.N(sym.cos(tv2)) * wv2 ** 2 - rv2 * sym.N(sym.sin(tv2)) * av2 - ar3 * sym.cos(tv3) + 2 * (vv3 * sym.N(sym.sin(tv3)) * wv3) + rv3 * sym.N(sym.cos(tv3)) * wv3 ** 2 + rv3 * sym.sin(tv3) * at3, 0)
@@ -216,10 +219,10 @@ for i in range(1,37):
     av5 = resultav2[a5]
     av6 = resultav2[a6]
 #     print(f"Ae:({-rv4 * sym.cos(tv3) * wv3 ** 2 - rv4 * sym.sin(tv3) * atv3 - rv5 * sym.cos(tv5) * wv5 ** 2 - rv5 * sym.sin(tv5) * av5},{-rv4 * sym.sin(tv3) * wv3 ** 2 + rv4 * sym.cos(tv3) * atv3 - rv5 * sym.sin(tv5) * wv5 ** 2 - rv5 * sym.cos(tv5) * av5})")
-    table[i-1].extend((round(-rv4 * sym.cos(tv3) * wv3 ** 2 - rv4 * sym.sin(tv3) * atv3 - rv5 * sym.cos(tv5) * wv5 ** 2 - rv5 * sym.sin(tv5) * av5,4),round( -rv4 * sym.sin(tv3) * wv3 ** 2 + rv4 * sym.cos(tv3) * atv3 - rv5 * sym.sin(tv5) * wv5 ** 2 - rv5 * sym.cos(tv5) * av5, 4)))
-    table[i-1].append(round(wv6, 4))
-    eaxplot[i-1] = np.float64(round(-rv4 * sym.cos(tv3) * wv3 ** 2 - rv4 * sym.sin(tv3) * atv3 - rv5 * sym.cos(tv5) * wv5 ** 2 - rv5 * sym.sin(tv5) * av5,4))
-    eayplot[i-1] = np.float64(round( -rv4 * sym.sin(tv3) * wv3 ** 2 + rv4 * sym.cos(tv3) * atv3 - rv5 * sym.sin(tv5) * wv5 ** 2 - rv5 * sym.cos(tv5) * av5, 4))
+    table[step].extend((round(-rv4 * sym.cos(tv3) * wv3 ** 2 - rv4 * sym.sin(tv3) * atv3 - rv5 * sym.cos(tv5) * wv5 ** 2 - rv5 * sym.sin(tv5) * av5,4),round( -rv4 * sym.sin(tv3) * wv3 ** 2 + rv4 * sym.cos(tv3) * atv3 - rv5 * sym.sin(tv5) * wv5 ** 2 - rv5 * sym.cos(tv5) * av5, 4)))
+    table[step].append(round(wv6, 4))
+    eaxplot[step] = np.float64(round(-rv4 * sym.cos(tv3) * wv3 ** 2 - rv4 * sym.sin(tv3) * atv3 - rv5 * sym.cos(tv5) * wv5 ** 2 - rv5 * sym.sin(tv5) * av5,4))
+    eayplot[step] = np.float64(round( -rv4 * sym.sin(tv3) * wv3 ** 2 + rv4 * sym.cos(tv3) * atv3 - rv5 * sym.sin(tv5) * wv5 ** 2 - rv5 * sym.cos(tv5) * av5, 4))
     # print("seven")
 
 def filterUnchangedValue(array: np.ndarray, num: int) -> np.ndarray:
