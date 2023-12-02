@@ -1,8 +1,5 @@
 import sympy as sym
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from tabulate import tabulate
 
 def getParameters():
     params = input("Enter the parameters, in the sequence of r2, r1, r4, r5, r6, r7, w2, a2(separate by space): ").split()
