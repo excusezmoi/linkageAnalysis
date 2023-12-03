@@ -64,10 +64,10 @@ def linkageAnimation(params,dt,iterate):
 
     xr3, yr3, xr5, yr5, xr6, yr6 = list(map(lambda arr: arr[arr != 0], calculateAllData(**params, dt = dt)))
 
-    def findLimitXY(rv1, xr5=xr5, yr5=yr5, xr6=xr6, yr6=yr6):
+    def findLimitXY(rv1, rv7, xr5=xr5, yr5=yr5, xr6=xr6, yr6=yr6):
 
-        xMax = float(max(xr5)) + 1
-        xMin = float(min(xr6)) - 1
+        xMax = float(max(*xr5, 0)) + 1
+        xMin = float(min(*xr6, -rv7)) - 1
 
         yMax = float(max(*yr5, *yr6)) + 1
         yMin = -rv1 - 1
@@ -78,7 +78,7 @@ def linkageAnimation(params,dt,iterate):
     # set up the figure and subplot
     fig = plt.figure()
     ax = fig.add_subplot(
-        111, aspect="equal", autoscale_on=False, **findLimitXY(rv1)
+        111, aspect="equal", autoscale_on=False, **findLimitXY(rv1, rv7)
     )
     # add grid lines, title and take out the axis tick labels
     ax.grid(alpha=0.5)
