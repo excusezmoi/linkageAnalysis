@@ -2,6 +2,8 @@
 
 A linkage analysis project with kinematics and animation.
 
+12/2/2023 UPDATE fix bugs and adjust for readability.
+
 ![image](linkage.png)
 
 This project utilizes sympy, which is not the best idea for numerical calculations. Symbolic calculation could be seen as an alternative solution to some numerical problems, but when the solution does not have a close form, only numerical calculations will work.
