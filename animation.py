@@ -44,11 +44,11 @@ def calculateAllData(rv1,rv2,rv4,rv5,rv6,rv7,wv2,av2,dt):
     xr3, yr3, xr5, yr5, xr6, yr6 = [np.zeros(len(inputAngles)) for _ in range(6)]
 
     for step, tv2 in enumerate(inputAngles):
-        rv3, tv3 = solveEquations(*loopOneEquations(rv1, rv2, r3, tv2, t3, delr3, delt3), r3, t3, rv3, tv3, delr3, delt3, normalize=[False, True])
+        rv3, tv3 = NMsolveEquations(*loopOneEquations(rv1, rv2, r3, tv2, t3, delr3, delt3), r3, t3, rv3, tv3, delr3, delt3, normalize=[False, True])
         if invalidAngle(tv3, maxt3, mint3):
             print(f"This input angle {sym.N(tv2/sym.pi*180)} degree cannot occur!")
             continue
-        tv5, tv6 = solveEquations(*loopTwoEquations(rv4, rv5, rv6, rv7, rv8, tv3, t5, t6, delt5, delt6), t5, t6, tv5, tv6, delt5, delt6, normalize=[True, True])
+        tv5, tv6 = NMsolveEquations(*loopTwoEquations(rv4, rv5, rv6, rv7, rv8, tv3, t5, t6, delt5, delt6), t5, t6, tv5, tv6, delt5, delt6, normalize=[True, True])
         xr3[step], yr3[step], xr5[step], yr5[step], xr6[step], yr6[step] = calculatePositions(rv1, rv3, rv4, rv5, tv3, tv5)
 
     return xr3, yr3, xr5, yr5, xr6, yr6
