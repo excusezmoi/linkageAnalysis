@@ -2,7 +2,7 @@
 
 A linkage analysis project with kinematics and animation.
 
-12/2/2023 UPDATE fix bugs and adjust for readability.
+12/3/2023 UPDATE fix bugs and adjust for readability.
 
 ![image](linkage.png)
 
