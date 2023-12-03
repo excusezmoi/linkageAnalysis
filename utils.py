@@ -20,7 +20,7 @@ def findValueT5T6(rv1,rv2,rv4,rv5,rv6,rv7):
     eq1 = sym.Eq((x+b)**2 + y**2 - rv6**2,0)
     eq2 = sym.Eq(x**2 + y**2 - rv5**2,0)
     result = sym.solve([eq1,eq2],(x,y))
-    print(result)
+    # print(result)
 
     for sol in result:
         # print(sol[0], sol[1])
@@ -50,7 +50,7 @@ def findValueT5T6(rv1,rv2,rv4,rv5,rv6,rv7):
         t5Ini = sym.atan(yright/(xright + rv7))
         t5Ini = sym.N(sym.pi + t5Ini)
         t6Ini = t5Ini - 0.1
-        print("except")
+        # print("except")
 
     return t5Ini, t6Ini
 
@@ -92,7 +92,8 @@ def loopTwoEquations(rv4, rv5, rv6, rv7, rv8, tv3, t5, t6, delt5, delt6):
 def zeroToTwoPi(angle):
     return angle % (2 * sym.pi)
 
-def solveEquations(fA, fB, eqA, eqB, X, Y, vX, vY, delX, delY, normalize=[False, False]):
+# def NMsolveEquations(fA, fB, eqA, eqB, X, Y, vX, vY, delX, delY, normalize=[False, False]):
+def NMsolveEquations(fA, fB, eqA, eqB, X, Y, vX, vY, delX, delY, normalize=[False, False]):
     result = sym.solve([eqA, eqB], (delX, delY))
     delvX, delvY = 0, 0
     while abs(sym.N(fA.subs({X: vX, Y: vY}))) > 0.0001 or abs(sym.N(fB.subs({X: vX, Y: vY}))) > 0.0001:
